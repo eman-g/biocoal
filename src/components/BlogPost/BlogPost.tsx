@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 //Material-UI
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -25,6 +25,7 @@ import { Queries } from 'graphqlApi';
 import moment from 'moment';
 
 import BlogShare from './share';
+import Comment from 'components/Comment/Comment';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,55 +72,60 @@ export default function RecipeReviewCard() {
     }
   });
 
+  useEffect(()=>{console.log("blogPost", data?.blogPost)}, [data])
+
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {data?.blogPost?.author.name[0]}
-          </Avatar>
-        }
-        title={data?.blogPost?.author.name}
-        subheader={moment(data?.blogPost?.publishedAt).format("MMMM Do, YYYY")}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h4" component="h1">
-          {data?.blogPost?.title}
-        </Typography>
-      </CardContent>
-      {data?.blogPost?.banner &&
-        <CardMedia
-          className={classes.media}
-          image={data?.blogPost?.banner.url}
-          title="banner"
-        />
-      }
-      <CardContent>
-        <Markdown className={classes.markdown}>
-          {
-            (data?.blogPost?.content.markdown) ? data?.blogPost?.content.markdown : ""
+    <React.Fragment>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {data?.blogPost?.author.name[0]}
+            </Avatar>
           }
-        </Markdown>
-      </CardContent>
-      <CardActions disableSpacing>
-        {data?.blogPost && 
-
-          <BlogShare blogPost={data.blogPost} />
-
+          title={data?.blogPost?.author.name}
+          subheader={moment(data?.blogPost?.publishedAt).format("MMMM Do, YYYY")}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h4" component="h1">
+            {data?.blogPost?.title}
+          </Typography>
+        </CardContent>
+        {data?.blogPost?.banner &&
+          <CardMedia
+            className={classes.media}
+            image={data?.blogPost?.banner.url}
+            title="banner"
+          />
         }
-        
-        {data?.blogPost?.next && 
-          <Button 
-            className={classes.expand} 
-            size="small" 
-            color="primary"
-            endIcon={<ArrowRightAltIcon />}
-            onClick={(e)=>history.push(`/${data?.blogPost?.next.slug}`)}
-          >
-            Next Up: "{data?.blogPost?.next.title}"
-          </Button>
-        } 
-      </CardActions>
-    </Card>
+        <CardContent>
+          <Markdown className={classes.markdown}>
+            {
+              (data?.blogPost?.content.markdown) ? data?.blogPost?.content.markdown : ""
+            }
+          </Markdown>
+        </CardContent>
+        <CardActions disableSpacing>
+          {data?.blogPost && 
+
+            <BlogShare blogPost={data.blogPost} />
+
+          }
+          
+          {data?.blogPost?.next && 
+            <Button 
+              className={classes.expand} 
+              size="small" 
+              color="primary"
+              endIcon={<ArrowRightAltIcon />}
+              onClick={(e)=>history.push(`/${data?.blogPost?.next.slug}`)}
+            >
+              Next Up: "{data?.blogPost?.next.title}"
+            </Button>
+          } 
+        </CardActions>
+      </Card>
+      {data?.blogPost?.comments?.map(comment => (<Comment comment={comment} />))}
+    </React.Fragment>
   );
 }

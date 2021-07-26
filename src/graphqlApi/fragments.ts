@@ -20,6 +20,11 @@ fragment blogPostFields on BlogPost {
   banner {
     url
   }
+  comments {
+    name
+    content
+    publishedAt
+  }
 }`;
 
 export const CATEGORY_FIELDS = gql`
