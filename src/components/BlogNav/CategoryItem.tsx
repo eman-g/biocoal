@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Material-UI
 import List from '@material-ui/core/List';
-import {ListItemButton} from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,7 +31,7 @@ export default function CategoryItem({ setMenuClose, blogPost, level }: Category
 
   return (
     <React.Fragment>
-      <ListItemButton style={{paddingLeft: theme.spacing(level)}} onClick={(e)=>handleClick()}>
+      <ListItem button style={{paddingLeft: theme.spacing(level)}} onClick={(e)=>handleClick()}>
         <ListItemText primary={blogPost.title} />
         {Boolean(blogPost.children.length) && 
           <ListItemSecondaryAction>
@@ -45,7 +45,7 @@ export default function CategoryItem({ setMenuClose, blogPost, level }: Category
             </IconButton>
           </ListItemSecondaryAction>
         }
-      </ListItemButton>
+      </ListItem>
       {Boolean(blogPost.children.length) &&
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
