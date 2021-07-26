@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Material-UI
 import List from '@material-ui/core/List';
-import ListItemButton from '@material-ui/core/ListItemButton';
+import {ListItemButton} from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
